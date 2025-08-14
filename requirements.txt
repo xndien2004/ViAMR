@@ -1,0 +1,8 @@
+penman
+pandas
+underthesea
+smatch
+mpi4py
+trl
+vllm
+peft
