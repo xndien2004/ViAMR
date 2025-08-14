@@ -1,4 +1,4 @@
-# VLSP2025 AMR - Vietnamese Abstract Meaning Representation
+# ViAMR - Vietnamese Abstract Meaning Representation
 
 🇻🇳 **Vietnamese AMR Parser for VLSP 2025 Competition**
 
