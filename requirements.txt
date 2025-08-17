@@ -6,3 +6,4 @@ mpi4py
 trl
 vllm
 peft
+deepspeed
