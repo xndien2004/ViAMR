@@ -67,6 +67,7 @@ def main(args):
         report_to="none",
         completion_only_loss=False,
         deepspeed=args.deepspeed_path,
+        max_length=args.max_input_length,
         # eval_strategy="steps",
         # eval_steps=args.eval_steps
     )
@@ -106,7 +107,6 @@ def parse_args():
     parser.add_argument("--warmup_steps", type=int, default=1000)
     parser.add_argument("--lr_scheduler_type", type=str, default="linear")
     parser.add_argument("--max_input_length", type=int, default=1024)
-    parser.add_argument("--max_target_length", type=int, default=1024)
     parser.add_argument("--eval_steps", type=int, default=500)
 
     # LoRA parameters

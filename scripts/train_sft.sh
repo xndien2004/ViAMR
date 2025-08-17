@@ -25,7 +25,6 @@ torchrun --nproc_per_node=2 -m src.train_sft \
     --per_device_train_batch_size 1 \
     --gradient_accumulation_steps 1 \
     --max_input_length 2048 \
-    --max_target_length 2048 \
     --num_train_epochs 20 \
     --save_steps 500 \
     --eval_steps 10 \
