@@ -26,7 +26,7 @@ def main(args):
             retry_count = 0
             max_retries = 100
             while retry_count < max_retries:
-                predict = model.inference(line.lower(), is_extract_amr=True)
+                thinking, predict = model.inference(line.lower(), is_extract_amr=True, is_thinking=True)
                 try:
                     graph = penman.decode(predict)
                     amr_str = penman.encode(graph)

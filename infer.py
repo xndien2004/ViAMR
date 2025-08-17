@@ -20,14 +20,13 @@ class QwenReasoner:
         ).to(device).eval()
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
 
-    def inference(self, prompt: str, max_new_tokens: int = 2048, is_extract_amr: bool = False) -> str:
+    def inference(self, prompt: str, max_new_tokens: int = 2048, is_extract_amr: bool = False, is_thinking=False) -> str:
         user_prompt = (
                     f"{SYSTEM_PROMPT}\n\n"
                     f"Chuyển câu sau thành biểu diễn AMR dạng chuỗi PENMAN một dòng theo đúng quy tắc trên."
                     f"Câu: {prompt}\n"
                 )
         messages = [
-            {"role": "system", "content": "Bạn là trợ lý chuyên gia AMR, nhiệm vụ của bạn là chuyển đổi câu tiếng Việt thành biểu diễn AMR dạng chuỗi PENMAN theo định dạng chuẩn."},
             {"role": "user", "content": user_prompt}
         ]
         text = self.tokenizer.apply_chat_template(
@@ -41,12 +40,25 @@ class QwenReasoner:
             **model_inputs,
             max_new_tokens=max_new_tokens
         )
+        if is_thinking:
+            output_ids = generated_ids[0][len(model_inputs.input_ids[0]):].tolist() 
+
+            try:
+                index = len(output_ids) - output_ids[::-1].index(151668)
+            except ValueError:
+                index = 0
+
+            thinking_content = self.tokenizer.decode(output_ids[:index], skip_special_tokens=True).strip("\n")
+            content = self.tokenizer.decode(output_ids[index:], skip_special_tokens=True).strip("\n")
+            if is_extract_amr:
+                return thinking_content, self.extract_answer(content)
+            return thinking_content, content
         generated_ids = [
             output_ids[len(input_ids):] for input_ids, output_ids in zip(model_inputs.input_ids, generated_ids)
         ]
         if is_extract_amr:
-            return self.extract_answer(self.tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0])
-        return self.tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
+            return None, self.extract_answer(self.tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0])
+        return None, self.tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
 
     @staticmethod
     def extract_answer(text: str) -> str:
