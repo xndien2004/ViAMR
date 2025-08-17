@@ -27,8 +27,8 @@ def main(args):
             max_retries = 100
             while retry_count < max_retries:
                 thinking, predict = model.inference(line.lower(), is_extract_amr=True, is_thinking=True)
-                print(predict)
                 try:
+                    predict = join_concepts_underscores(predict)
                     graph = penman.decode(predict)
                     amr_str = penman.encode(graph)
                     break

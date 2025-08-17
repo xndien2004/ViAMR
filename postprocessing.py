@@ -4,6 +4,22 @@ from underthesea import word_tokenize
 from typing import Iterable, Optional
 import penman
 
+def join_concepts_underscores(text: str) -> str:
+    """
+    Nối các concept đa từ ngay sau dấu '/' thành 'a_b_c'.
+    Không sửa tên role (bắt đầu bằng ':').
+    Ví dụ: '(n / nhân dân)' -> '(n / nhân_dân)'
+           '(t1 / phụ trách:theme ...)' -> '(t1 / phụ_trách:theme ...)'
+    """
+    # Bắt mọi cụm sau '/ ' cho đến trước ':', ')', '/' kế tiếp hoặc hết chuỗi.
+    rx = re.compile(r'/\s+([^\n\r():/]+?)(?=\s*[:/)]|\s*$)', re.UNICODE)
+
+    def _repl(m: re.Match) -> str:
+        joined = re.sub(r'\s+', '_', m.group(1).strip())
+        return f'/ {joined}'
+
+    return rx.sub(_repl, text)
+
 def remove_single_prop_nodes(amr_str: str) -> str:
     """
     Xóa các thuộc tính dạng :role (var / concept) nếu concept không có thuộc tính con nào khác.
