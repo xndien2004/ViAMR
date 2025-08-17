@@ -7,3 +7,4 @@ trl
 vllm
 peft
 deepspeed
+transformers
