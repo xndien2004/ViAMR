@@ -36,17 +36,17 @@ def main(args):
                     print(f"[Error] Cannot decode AMR (try {retry_count+1})")
                     amr_str = "fail"
                     retry_count += 1
-            try:
-                amr_str = dedup_and_tidy(amr_str, None)
-                amr_str = fix_amr_vars(amr_str)
-                amr_str = balance_parens(amr_str)
-                amr_str = process_amr_general(amr_str)
-                amr_str = remove_single_prop_nodes(amr_str)
-                print(f"[Success] Processed AMR")
-                graph = penman.decode(amr_str)
-                amr_str = penman.encode(graph)
-            except Exception as e:
-                print(f"[Error] Failed to process AMR after retries: {e}")
+            # try:
+            #     amr_str = dedup_and_tidy(amr_str, None)
+            #     amr_str = fix_amr_vars(amr_str)
+            #     amr_str = balance_parens(amr_str)
+            #     amr_str = process_amr_general(amr_str)
+            #     amr_str = remove_single_prop_nodes(amr_str)
+            #     print(f"[Success] Processed AMR")
+            #     graph = penman.decode(amr_str)
+            #     amr_str = penman.encode(graph)
+            # except Exception as e:
+            #     print(f"[Error] Failed to process AMR after retries: {e}")
 
             if has_duplicate_nodes(amr_str):
                 print(f"[Warning] AMR has duplicate nodes: {amr_str}")
