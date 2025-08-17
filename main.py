@@ -36,9 +36,9 @@ def main(args):
                     amr_str = "fail"
                     retry_count += 1
             try:
-                # amr_str = dedup_and_tidy(amr_str, None)
-                # amr_str = fix_amr_vars(amr_str)
-                # amr_str = balance_parens(amr_str)
+                amr_str = dedup_and_tidy(amr_str, None)
+                amr_str = fix_amr_vars(amr_str)
+                amr_str = balance_parens(amr_str)
                 amr_str = process_amr_general(amr_str)
                 amr_str = remove_single_prop_nodes(amr_str)
                 print(f"[Success] Processed AMR")
