@@ -53,7 +53,7 @@ def main(args):
             out_f.write(f"{amr_str}\n\n")
             out_f.flush()
 
-            print(f"Processed {idx}: {line} (Retries: {retry_count})")
+            print(f"Processed {idx}: {line} (Retries: {retry_count}): amr: {amr_str}")
 
     print(f"Save completed. Results saved to {args.output_file}")
 
