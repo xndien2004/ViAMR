@@ -70,6 +70,19 @@ def penman_safe_minimal(amr: str, roles_to_dedup=()):
     s = re.sub(r'[ \t]+', ' ', s).strip()
     return s
 
+def has_duplicate_nodes(amr_str: str) -> bool:
+    """ Kiểm tra xem AMR string có biến node nào bị trùng tên hay không.
+    Node: ký tự (hoặc chuỗi ký tự) đứng ngay sau '(' và trước '/'.
+    """
+    pattern = re.compile(r'\(\s*([^\s/()]+)\s*/')
+    nodes = pattern.findall(amr_str)
+    seen = set()
+    for var in nodes:
+        if var in seen:
+            print(f"Duplicate node found: {var}")
+            return True
+        seen.add(var)
+    return False
 
 # def balance_parens(amr: str, trim_trailing_excess: bool = True, ensure_newline: bool = True) -> str:
 #     """
