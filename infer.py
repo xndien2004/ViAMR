@@ -2,6 +2,7 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 import torch
 import penman
 from penman.models.noop import NoOpModel
+from trl import SFTTrainer, SFTConfig
 import time
 import re
 import pandas as pd
