@@ -13,12 +13,16 @@ from .postprocessing import *
 from .prompt import SYSTEM_PROMPT
 
 class QwenReasoner:
-    def __init__(self, model_name="ViQwen2-1.5B-rerank-GRPO", device="cuda:0"):
+    def __init__(self, base_model="model", lora_path="lora_path", use_lora=0, lora_r=16, lora_alpha=32, lora_dropout=0.05, device="cuda:0"):
         self.model = AutoModelForCausalLM.from_pretrained(
-            model_name,
+            base_model,
             torch_dtype=torch.bfloat16
-        ).to(device).eval()
+        ).to(device)
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
+        if use_lora:
+            self.model = PeftModel.from_pretrained(self.model, lora_path).eval()
+        else:
+            self.model = self.model.eval()
 
     def inference(self, prompt: str, max_new_tokens: int = 2048, is_extract_amr: bool = False, is_thinking=False) -> str:
         user_prompt = (
