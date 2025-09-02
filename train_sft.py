@@ -37,8 +37,6 @@ def main(args):
             task_type="CAUSAL_LM",
             target_modules="all-linear",
         )
-        model = get_peft_model(model, peft_config)
-        model.print_trainable_parameters()
 
     def compute_metrics(eval_preds):
         preds, labels = eval_preds
@@ -78,7 +76,8 @@ def main(args):
         train_dataset=train_dataset,
         # eval_dataset=eval_dataset,
         args=training_args,
-        compute_metrics=compute_metrics
+        compute_metrics=compute_metrics,
+        peft_config=peft_config
     )
 
     trainer.train()
