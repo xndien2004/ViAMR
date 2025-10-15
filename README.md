@@ -1,4 +1,4 @@
-# ViAMR - Vietnamese Abstract Meaning Representation
+# ViAMR: Fine-tuning LLMs for Abstract Meaning Representation in Vietnamese
 
 🇻🇳 **Vietnamese AMR Parser for VLSP 2025 Competition**
 
